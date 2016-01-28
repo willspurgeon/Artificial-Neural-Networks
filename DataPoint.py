@@ -7,4 +7,3 @@ class DataPoint:
         self.xValue = xValue
         self.yValue = yValue
         self.dataLabel = dataLabel
-
