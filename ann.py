@@ -1,6 +1,11 @@
 import sys
 from DataPoint import DataPoint
+import numpy
+import math
 
+#Two input nodes in the input layer
+#h number of hidden nodes in the hidden layer
+#Two output node in the output layer.
 
 def main():
     if len(sys.argv) == 6:
@@ -23,10 +28,6 @@ def main():
         holdoutPercentage = .2
 
 
-
-
-
-
     input = []
 
     print filename
@@ -41,6 +42,12 @@ def main():
         input.append(newDataPoint)
 
 
+def activationFunction(self, x):
+    return 1/(1+math.pow(numpy.e, -x))
+
+
+
+def classifyPoint(self, dataPoint)
 
 if __name__ == "__main__":
     main()
