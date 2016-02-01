@@ -7,6 +7,9 @@ import math
 #h number of hidden nodes in the hidden layer
 #Two output node in the output layer.
 
+W1 = 1
+
+
 def main():
     if len(sys.argv) == 6:
         #All of the parameters.
@@ -42,12 +45,38 @@ def main():
         input.append(newDataPoint)
 
 
+
 def activationFunction(self, x):
     return 1/(1+math.pow(numpy.e, -x))
 
 
+def buildModel(self, numOfHiddenNodes, numberOfPasses=10000):
+    model = {}
 
-def classifyPoint(self, dataPoint)
+
+    numpy.random.seed(42)
+    W1 = numpy.random.randn(2, numOfHiddenNodes) / numpy.sqrt(2)
+    B1 = numpy.zeros((1, numOfHiddenNodes))
+    W2 = numpy.random.randn(numOfHiddenNodes, 2) / numpy.sqrt(numOfHiddenNodes)
+    B2 = numpy.zeros((1, 2))
+
+    for i in xrange(0, numberOfPasses):
+        for example in input:
+            for inputNode in range(0,2):
+                #For each input node.
+
+
+
+    for i in xrange(0, numOfHiddenNodes):
+        z1 = input.dot(W1) + B1
+        a1 = numpy.tanh(z1)
+        z2 = a1.dot(W2) + B2
+        score = numpy.exp(z2)
+        probs = score / numpy.sum(score, axis=1, keepdims=True) #Fix this.
+
+
+
+def classifyPoint(self, dataPoint):
 
 if __name__ == "__main__":
     main()
