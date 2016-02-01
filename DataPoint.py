@@ -3,7 +3,7 @@ class DataPoint:
     yValue = 0.0000
     dataLabel = 0
 
-    def __init__(self, xValue, yValue, dataLabel):
+    def __init__(self, xValue, yValue, dataLabel = -1):
         self.xValue = xValue
         self.yValue = yValue
         self.dataLabel = dataLabel

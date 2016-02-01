@@ -2,7 +2,7 @@ import sys
 from DataPoint import DataPoint
 import numpy
 import math
-import Neuron
+from Neuron import Neuron
 
 #Two input nodes in the input layer
 #h number of hidden nodes in the hidden layer
@@ -36,6 +36,7 @@ def main():
     print hiddenNodesNum
     print holdoutPercentage
 
+    hiddenNodesNum = int(hiddenNodesNum)
     file = open(filename, 'r')
 
     for line in file:
@@ -43,26 +44,23 @@ def main():
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         input.append(newDataPoint)
 
+    model = buildModel(hiddenNodesNum, input, 10000)
+    print classifyPoint(DataPoint(1.953357, -0.746632), model)
 
-
-def activationFunction(self, x):
-    return 1/(1+math.pow(numpy.e, -x))
-
-
-def buildModel(self, numOfHiddenNodes, numberOfPasses=10000):
+def buildModel(numOfHiddenNodes, input, numberOfPasses):
     model = {}
 
     #Build input and hidden neurons
-    inputLayer = [Neuron(), Neuron()]
+    in1 = Neuron([], -1)
+    in2 = Neuron([], -1)
+    inputLayer = [in1, in2]
     hiddenLayer = []
 
-    p = 0
-    for j in numOfHiddenNodes:
-        newNeuron = Neuron(inputLayer, p)
+    for j in range(0,numOfHiddenNodes):
+        newNeuron = Neuron(inputLayer, j)
         hiddenLayer.append(newNeuron)
-        p = p + 1
 
-    outputLayer = [Neuron(hiddenLayer)]
+    outputLayer = [Neuron(hiddenLayer, -1)]
 
     for i in xrange(0, numberOfPasses):
         inputLayer[0].output = input[i].xValue
@@ -75,6 +73,7 @@ def buildModel(self, numOfHiddenNodes, numberOfPasses=10000):
             anOutputNeuron.getOutput
 
         #Find error factor of output
+        print outputLayer[0]
         outputLayer[0].delta(input[i].dataLabel)
 
         #Find error factor of each hidden layer
