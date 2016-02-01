@@ -44,8 +44,8 @@ def main():
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         input.append(newDataPoint)
 
-    model = buildModel(hiddenNodesNum, input, 10000)
-    print classifyPoint(DataPoint(1.953357, -0.746632), model)
+    model = buildModel(hiddenNodesNum, input, 200)
+    print classifyPoint(DataPoint(-0.279703, 0.753196), model)
 
 def buildModel(numOfHiddenNodes, input, numberOfPasses):
     model = {}
@@ -73,8 +73,7 @@ def buildModel(numOfHiddenNodes, input, numberOfPasses):
             anOutputNeuron.getOutput
 
         #Find error factor of output
-        print outputLayer[0]
-        outputLayer[0].delta(input[i].dataLabel)
+        outputLayer[0].getDelta(input[i].dataLabel)
 
         #Find error factor of each hidden layer
         for aHiddenNeuron in hiddenLayer:
@@ -89,7 +88,7 @@ def buildModel(numOfHiddenNodes, input, numberOfPasses):
 
     return [inputLayer, hiddenLayer, outputLayer]
 
-def classifyPoint(self, dataPoint, network):
+def classifyPoint(dataPoint, network):
     inputLayer = network[0]
     hiddenLayer = network[1]
     outputLayer = network[2]
@@ -98,6 +97,7 @@ def classifyPoint(self, dataPoint, network):
     inputLayer[1].output = dataPoint.yValue
 
     for aHiddenNeuron in hiddenLayer:
+        print aHiddenNeuron.inputWeights[0]
         aHiddenNeuron.getOutput()
 
     for anOutputNeuron in outputLayer:

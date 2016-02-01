@@ -4,14 +4,15 @@ import math
 class Neuron:
 
     def __init__(self, inputs, hiddenLayerNum):
-        self.hiddenLayerNum = -1
+        self.hiddenLayerNum = hiddenLayerNum
         self.inputs = inputs
-        self.output = 0
+        self.output = 0.00000
         self.inputWeights  = []
-        self.netValue = 0
-        self.bias = 0
-        self.delta = 0
+        self.netValue = 0.0000
+        self.bias = 0.0000
+        self.delta = 0.0000
         self.learningRate = 0.5
+        self.errorFactor = 0.00000
         #generate weights for inputs.
         numpy.random.seed(42)
         i = 0
@@ -37,16 +38,20 @@ class Neuron:
 
     def errorFactorOfHiddenNeuron(self, outputNode):
         self.errorFactor = self.errorFactor + (outputNode.delta * outputNode.inputWeights[self.hiddenLayerNum])
-        return  self.errorFactor
+        return self.errorFactor
 
-    def delta(self, expectedOutput):
-        self.delta = self.output * (1-self.output) * (expectedOutput - self.output)
+    def test(self):
+        i = 1
+        #do nothing
+
+    def getDelta(self, expectedOutput):
+        self.delta = self.output * (1-self.output) * (float(expectedOutput) - self.output)
         return self.delta
 
     def updateParameters(self):
         self.bias = self.bias + (self.learningRate * self.delta)
         i = 0
         for inputConnection in self.inputWeights:
-            self.inputWeights[i] = self.inputWeights[i] + self.learningRate * self.inputs[i].output * self.delta
+            self.inputWeights[i] = self.inputWeights[i] + self.learningRate * float(self.inputs[i].output) * float(self.delta)
             i = i + 1
 
