@@ -2,12 +2,11 @@ import sys
 from DataPoint import DataPoint
 import numpy
 import math
+import Neuron
 
 #Two input nodes in the input layer
 #h number of hidden nodes in the hidden layer
-#Two output node in the output layer.
-
-W1 = 1
+#One output node in the output layer.
 
 
 def main():
@@ -53,30 +52,59 @@ def activationFunction(self, x):
 def buildModel(self, numOfHiddenNodes, numberOfPasses=10000):
     model = {}
 
+    #Build input and hidden neurons
+    inputLayer = [Neuron(), Neuron()]
+    hiddenLayer = []
 
-    numpy.random.seed(42)
-    W1 = numpy.random.randn(2, numOfHiddenNodes) / numpy.sqrt(2)
-    B1 = numpy.zeros((1, numOfHiddenNodes))
-    W2 = numpy.random.randn(numOfHiddenNodes, 2) / numpy.sqrt(numOfHiddenNodes)
-    B2 = numpy.zeros((1, 2))
+    p = 0
+    for j in numOfHiddenNodes:
+        newNeuron = Neuron(inputLayer, p)
+        hiddenLayer.append(newNeuron)
+        p = p + 1
+
+    outputLayer = [Neuron(hiddenLayer)]
 
     for i in xrange(0, numberOfPasses):
-        for example in input:
-            for inputNode in range(0,2):
-                #For each input node.
+        inputLayer[0].output = input[i].xValue
+        inputLayer[1].output = input[i].yValue
 
+        for aHiddenNeuron in hiddenLayer:
+            aHiddenNeuron.getOutput()
 
+        for anOutputNeuron in outputLayer:
+            anOutputNeuron.getOutput
 
-    for i in xrange(0, numOfHiddenNodes):
-        z1 = input.dot(W1) + B1
-        a1 = numpy.tanh(z1)
-        z2 = a1.dot(W2) + B2
-        score = numpy.exp(z2)
-        probs = score / numpy.sum(score, axis=1, keepdims=True) #Fix this.
+        #Find error factor of output
+        outputLayer[0].delta(input[i].dataLabel)
 
+        #Find error factor of each hidden layer
+        for aHiddenNeuron in hiddenLayer:
+            aHiddenNeuron.errorFactorOfHiddenNeuron(outputLayer[0])
 
+        #Update parameters of hidden nodes and then output node
+        for aNode in hiddenLayer:
+            aNode.updateParameters()
 
-def classifyPoint(self, dataPoint):
+        for anOutputNeuron in outputLayer:
+            anOutputNeuron.updateParameters()
+
+    return [inputLayer, hiddenLayer, outputLayer]
+
+def classifyPoint(self, dataPoint, network):
+    inputLayer = network[0]
+    hiddenLayer = network[1]
+    outputLayer = network[2]
+
+    inputLayer[0].output = dataPoint.xValue
+    inputLayer[1].output = dataPoint.yValue
+
+    for aHiddenNeuron in hiddenLayer:
+        aHiddenNeuron.getOutput()
+
+    for anOutputNeuron in outputLayer:
+        anOutputNeuron.getOutput
+
+    return outputLayer[0].output
 
 if __name__ == "__main__":
     main()
