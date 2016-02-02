@@ -44,8 +44,8 @@ def main():
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         input.append(newDataPoint)
 
-    model = buildModel(hiddenNodesNum, input, 200)
-    print classifyPoint(DataPoint(-0.279703, 0.753196), model)
+    model = buildModel(hiddenNodesNum, input, len(input))
+    print classifyPoint(DataPoint(0.769548, -2.066152), model)
 
 def buildModel(numOfHiddenNodes, input, numberOfPasses):
     model = {}
@@ -97,11 +97,21 @@ def classifyPoint(dataPoint, network):
     inputLayer[1].output = dataPoint.yValue
 
     for aHiddenNeuron in hiddenLayer:
-        print aHiddenNeuron.inputWeights[0]
         aHiddenNeuron.getOutput()
 
     for anOutputNeuron in outputLayer:
-        anOutputNeuron.getOutput
+        '''
+        print anOutputNeuron.inputWeights[0]
+        print anOutputNeuron.inputWeights[1]
+        print anOutputNeuron.inputWeights[2]
+        print anOutputNeuron.inputWeights[3]
+        print anOutputNeuron.inputWeights[4]
+        print anOutputNeuron.inputWeights[5]
+        print anOutputNeuron.inputWeights[6]
+        print anOutputNeuron.inputWeights[7]
+        '''
+
+        anOutputNeuron.getOutput()
 
     return outputLayer[0].output
 

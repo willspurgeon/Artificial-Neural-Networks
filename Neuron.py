@@ -14,26 +14,27 @@ class Neuron:
         self.learningRate = 0.5
         self.errorFactor = 0.00000
         #generate weights for inputs.
-        numpy.random.seed(42)
-        i = 0
         for input in inputs:
-            self.inputWeights.append( numpy.random.random())
-            i = i + 1
+            self.inputWeights.append(numpy.random.random())
 
-        #generate bias
+            #generate bias
             self.bias = numpy.random.random()
 
     def findNetValue(self):
         i = 0
         for input in self.inputs:
             self.netValue = self.netValue + float(input.output) + self.inputWeights[i]
+            #print "NetValue ", self.netValue
             i = i + 1
         self.netValue = self.netValue + self.bias
         return self.netValue
 
     def getOutput(self):
         value = self.findNetValue()
+        #print "Value",  value
+        #print "Output ", 1/(1+math.pow(numpy.e, -value))
         self.output = 1/(1+math.pow(numpy.e, -value))
+        #print "Output", self.output
         return self.output
 
     def errorFactorOfHiddenNeuron(self, outputNode):
