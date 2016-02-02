@@ -44,9 +44,10 @@ def main():
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         input.append(newDataPoint)
 
-    model = buildModel(hiddenNodesNum, input, 10)
-    print "Error rate: ", testUsingTestData(model)
+    model = buildModel(hiddenNodesNum, input, 1000)
+    errorRate = testUsingTestData(model)
     #print classifyPoint(DataPoint(-1.300597, 0.962803), model)
+    print "Error rate: ", errorRate
 
 def testUsingTestData(network):
     file = open("testData.txt", 'r')
@@ -145,7 +146,7 @@ def classifyPoint(dataPoint, network):
 
     #print "Better Out: ", newNum
 
-    if output < 0.57:
+    if output < 0.50:
         #print "yes"
         return 0.0
     else:
