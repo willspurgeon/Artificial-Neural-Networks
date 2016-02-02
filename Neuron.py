@@ -1,3 +1,5 @@
+#By: Will Spurgeon and Daniel Pongratz
+
 import numpy
 import math
 
@@ -13,10 +15,10 @@ class Neuron:
         self.delta = 0.0000
         self.learningRate = 0.5
         self.errorFactor = 0.00000
+
         #generate weights for inputs.
         for input in inputs:
             num = numpy.random.random()
-            #print "Weights: ", num
             self.inputWeights.append(num)
 
             #generate bias
@@ -31,7 +33,6 @@ class Neuron:
             self.netValue = self.netValue + float(input.output) * self.inputWeights[i]
             #print "NetValue ", self.netValue
             i = i + 1
-        #self.netValue = self.netValue + self.bias
         return self.netValue
 
     def getOutput(self):

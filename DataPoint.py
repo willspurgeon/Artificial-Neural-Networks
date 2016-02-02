@@ -1,3 +1,5 @@
+#By: Will Spurgeon and Daniel Pongratz
+
 class DataPoint:
     xValue = 0.0000
     yValue = 0.0000

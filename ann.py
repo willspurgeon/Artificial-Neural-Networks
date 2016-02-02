@@ -1,3 +1,5 @@
+#By: Will Spurgeon and Daniel Pongratz
+
 import sys
 from DataPoint import DataPoint
 import numpy
@@ -84,12 +86,12 @@ def testUsingTestData(network, testInput):
     numOfErrors = 0
     numOfDataPoints = len(testInput)
     for point in testInput:
-        pointClass = classifyPoint(point, network)
+        pointClass = classifyPoint(point, network) #Classify each data point.
         print "Point class: " , pointClass, "Expected: ", int(float(point.dataLabel))
         if int(pointClass) != int(float(point.dataLabel)):
             numOfErrors = numOfErrors + 1
 
-    return float(numOfErrors)/float(numOfDataPoints)
+    return float(numOfErrors)/float(numOfDataPoints) #Return error rate.
 
 def buildModel(numOfHiddenNodes, input, numberOfPasses):
     model = {}
@@ -100,14 +102,13 @@ def buildModel(numOfHiddenNodes, input, numberOfPasses):
     inputLayer = [in1, in2]
     hiddenLayer = []
 
-    for j in range(0,numOfHiddenNodes):
+    for j in range(0, numOfHiddenNodes):
         newNeuron = Neuron(inputLayer, j)
         hiddenLayer.append(newNeuron)
 
     outputLayer = [Neuron(hiddenLayer, -1)]
 
     for u in xrange(0, numberOfPasses):
-
         for i in xrange(0, len(input)):
             inputLayer[0].output = input[i].xValue
             inputLayer[1].output = input[i].yValue
@@ -118,8 +119,6 @@ def buildModel(numOfHiddenNodes, input, numberOfPasses):
             for anOutputNeuron in outputLayer:
                 anOutputNeuron.getOutput()
 
-            #for aHiddenNeuron in hiddenLayer:
-                #aHiddenNeuron.getDelta(input[i].dataLabel)
             #Find error factor of output
             outputLayer[0].getDelta(input[i].dataLabel)
 
@@ -134,7 +133,7 @@ def buildModel(numOfHiddenNodes, input, numberOfPasses):
             for anOutputNeuron in outputLayer:
                 anOutputNeuron.updateParameters()
 
-    return [inputLayer, hiddenLayer, outputLayer]
+    return [inputLayer, hiddenLayer, outputLayer] #Return the network.
 
 def classifyPoint(dataPoint, network):
     inputLayer = network[0]
@@ -148,26 +147,9 @@ def classifyPoint(dataPoint, network):
         aHiddenNeuron.getOutput()
 
     for anOutputNeuron in outputLayer:
-        '''
-        print anOutputNeuron.inputWeights[0]
-        print anOutputNeuron.inputWeights[1]
-        print anOutputNeuron.inputWeights[2]
-        print anOutputNeuron.inputWeights[3]
-        print anOutputNeuron.inputWeights[4]
-        print anOutputNeuron.inputWeights[5]
-        print anOutputNeuron.inputWeights[6]
-        print anOutputNeuron.inputWeights[7]
-        '''
-
         anOutputNeuron.getOutput()
 
     output = outputLayer[0].output
-    #print "Output: ", output
-
-    newNum  = output - 0.99999
-    newNum = newNum * 100000
-
-    #print "Better Out: ", newNum
 
     if output < 0.50:
         #print "yes"
