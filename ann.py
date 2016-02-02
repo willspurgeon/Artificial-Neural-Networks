@@ -44,7 +44,7 @@ def main():
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         input.append(newDataPoint)
 
-    model = buildModel(hiddenNodesNum, input, 100)
+    model = buildModel(hiddenNodesNum, input, 10)
     print "Error rate: ", testUsingTestData(model)
     #print classifyPoint(DataPoint(-1.300597, 0.962803), model)
 
@@ -61,7 +61,7 @@ def testUsingTestData(network):
 
     for point in testInput:
         pointClass = classifyPoint(point, network)
-        #print "Point class: " , pointClass, "Expected: ", int(float(point.dataLabel))
+        print "Point class: " , pointClass, "Expected: ", int(float(point.dataLabel))
         if int(pointClass) != int(float(point.dataLabel)):
             numOfErrors = numOfErrors + 1
 
@@ -94,6 +94,8 @@ def buildModel(numOfHiddenNodes, input, numberOfPasses):
             for anOutputNeuron in outputLayer:
                 anOutputNeuron.getOutput()
 
+            #for aHiddenNeuron in hiddenLayer:
+                #aHiddenNeuron.getDelta(input[i].dataLabel)
             #Find error factor of output
             outputLayer[0].getDelta(input[i].dataLabel)
 
@@ -136,19 +138,19 @@ def classifyPoint(dataPoint, network):
         anOutputNeuron.getOutput()
 
     output = outputLayer[0].output
-    print "Output: ", output
+    #print "Output: ", output
 
     newNum  = output - 0.99999
-    newNum = newNum * 10000
-    '''
-    print "Better Out: ", newNum
-    if output < 0.5:
+    newNum = newNum * 100000
+
+    #print "Better Out: ", newNum
+
+    if output < 0.57:
         #print "yes"
         return 0.0
     else:
         #print "no"
         return 1.0
-        '''
     return output
 
 if __name__ == "__main__":

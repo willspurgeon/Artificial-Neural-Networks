@@ -28,16 +28,16 @@ class Neuron:
         i = 0
         self.netValue = 0.0
         for input in self.inputs:
-            self.netValue = self.netValue + float(input.output) + self.inputWeights[i]
+            self.netValue = self.netValue + float(input.output) * self.inputWeights[i]
             #print "NetValue ", self.netValue
             i = i + 1
-        self.netValue = self.netValue + self.bias
+        #self.netValue = self.netValue + self.bias
         return self.netValue
 
     def getOutput(self):
         value = self.findNetValue()
         #print "Value",  value
-        self.output = 1/(1+math.pow(numpy.e, -value))
+        self.output = 1/(1+math.exp(-value))
         #print "Output", self.output
         return self.output
 
@@ -50,7 +50,7 @@ class Neuron:
         return self.delta
 
     def updateParameters(self):
-        self.bias = self.bias + (self.learningRate * self.delta)
+        self.bias = self.bias + (self.learningRate * 1 * self.delta)
         i = 0
         for inputConnection in self.inputWeights:
             self.inputWeights[i] = self.inputWeights[i] + (self.learningRate * float(self.inputs[i].output) * float(self.delta))
