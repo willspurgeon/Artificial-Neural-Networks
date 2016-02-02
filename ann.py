@@ -10,6 +10,9 @@ from Neuron import Neuron
 
 
 def main():
+    hiddenNodesNum = 5
+    holdoutPercentage = .2
+
     if len(sys.argv) == 6:
         #All of the parameters.
         filename = sys.argv[1]
@@ -44,22 +47,42 @@ def main():
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         input.append(newDataPoint)
 
-    model = buildModel(hiddenNodesNum, input, 1000)
-    errorRate = testUsingTestData(model)
+    testUsingHoldOut(hiddenNodesNum, input, 100, holdoutPercentage)
+
+
+def testUsingHoldOut(hiddenNodes, inputData, numOfPasses, holdOutPercentage):
+    total = len(inputData)
+
+    holdOutData = []
+
+    numToHoldOut = int(total*float(holdOutPercentage))
+    print "Num to hold out: ", numToHoldOut
+    for i in range(0, numToHoldOut):
+        holdOutData.append(inputData[i])
+
+    for i in range(0, numToHoldOut):
+        inputData.pop(0)
+
+    model = buildModel(hiddenNodes, inputData, numOfPasses)
+    errorRate = testUsingTestData(model, inputData)
     #print classifyPoint(DataPoint(-1.300597, 0.962803), model)
+    print "Held out: ", len(holdOutData)
+    print "Kept: ", len(inputData)
     print "Error rate: ", errorRate
 
-def testUsingTestData(network):
+
+def testUsingTestData(network, testInput):
+    '''
     file = open("testData.txt", 'r')
     testInput = []
-    numOfDataPoints = 0
-    numOfErrors = 0
     for line in file:
         lineList = line.split(" ")
         newDataPoint = DataPoint(lineList[0], lineList[1], lineList[2])
         testInput.append(newDataPoint)
         numOfDataPoints = numOfDataPoints + 1
-
+    '''
+    numOfErrors = 0
+    numOfDataPoints = len(testInput)
     for point in testInput:
         pointClass = classifyPoint(point, network)
         print "Point class: " , pointClass, "Expected: ", int(float(point.dataLabel))
